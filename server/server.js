@@ -13,7 +13,7 @@ app.use(helmet())
 // Rate limiting - more lenient for development
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // 1000 requests in dev, 100 in prod
+  max: process.env.NODE_ENV === 'production' ? 1000 : 1000, // 1000 requests in both dev and prod
   message: {
     error: "Too many requests from this IP, please try again later.",
     retryAfter: "15 minutes"
@@ -25,7 +25,7 @@ const limiter = rateLimit({
 // More lenient rate limiter for login attempts
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 5 : 50, // 50 login attempts in dev, 5 in prod
+  max: process.env.NODE_ENV === 'production' ? 50 : 50, // 50 login attempts in both dev and prod
   message: {
     error: "Too many login attempts, please try again later.",
     retryAfter: "15 minutes"
@@ -37,9 +37,24 @@ const loginLimiter = rateLimit({
 app.use(limiter)
 
 // CORS configuration
+const allowedOrigins = [
+  process.env.CLIENT_URL || "http://localhost:3000",
+  "https://saasnotes-client.vercel.app",
+  "https://saasnotes-client-e0hmfo5cw-kushvarshney708-gmailcoms-projects.vercel.app"
+]
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true)
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true,
   }),
 )
@@ -62,16 +77,14 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() })
 })
 
-// Development endpoint to reset rate limits (only in development)
-if (process.env.NODE_ENV !== 'production') {
-  app.get("/reset-rate-limit", (req, res) => {
-    // This is a simple way to reset rate limits by restarting the limiter
-    res.json({ 
-      message: "Rate limits reset. Note: This only works if you restart the server.",
-      timestamp: new Date().toISOString() 
-    })
+// Endpoint to reset rate limits (for testing)
+app.get("/reset-rate-limit", (req, res) => {
+  res.json({ 
+    message: "Rate limits reset. Note: This only works if you restart the server.",
+    timestamp: new Date().toISOString(),
+    note: "If you're still getting 429 errors, wait 15 minutes for the rate limit window to reset."
   })
-}
+})
 
 // API Routes
 app.use("/api/auth", require("./routes/auth"))
