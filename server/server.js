@@ -102,6 +102,26 @@ app.get("/rate-limit-config", (req, res) => {
   })
 })
 
+// Endpoint to seed database with test data
+app.post("/seed-database", async (req, res) => {
+  try {
+    const seedData = require("./utils/seedData")
+    await seedData()
+    res.json({ 
+      message: "Database seeded successfully!",
+      testAccounts: [
+        "admin@acme.test / password (Admin, Acme)",
+        "user@acme.test / password (Member, Acme)",
+        "admin@globex.test / password (Admin, Globex)",
+        "user@globex.test / password (Member, Globex)"
+      ]
+    })
+  } catch (error) {
+    console.error("Seeding error:", error)
+    res.status(500).json({ message: "Seeding failed", error: error.message })
+  }
+})
+
 // API Routes
 app.use("/api/auth", require("./routes/auth"))
 app.use("/api/notes", require("./routes/notes"))
