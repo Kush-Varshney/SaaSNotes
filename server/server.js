@@ -86,6 +86,22 @@ app.get("/reset-rate-limit", (req, res) => {
   })
 })
 
+// Endpoint to check rate limit configuration
+app.get("/rate-limit-config", (req, res) => {
+  res.json({
+    loginLimiter: {
+      max: 50,
+      windowMs: "15 minutes",
+      environment: process.env.NODE_ENV
+    },
+    generalLimiter: {
+      max: 2000,
+      windowMs: "15 minutes"
+    },
+    timestamp: new Date().toISOString()
+  })
+})
+
 // API Routes
 app.use("/api/auth", require("./routes/auth"))
 app.use("/api/notes", require("./routes/notes"))
@@ -108,6 +124,8 @@ app.use("*", (req, res) => {
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-  console.log(`Rate limits: Login=50/15min, General=2000/15min`)
+console.log(`Server running on port ${PORT}`)
+console.log(`Rate limits: Login=50/15min, General=2000/15min`)
+console.log(`Environment: ${process.env.NODE_ENV}`)
+console.log(`Rate limit max: 50 (FIXED)`)
 })
