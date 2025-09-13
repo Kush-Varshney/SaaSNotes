@@ -33,7 +33,7 @@ const generateToken = (userId) => {
 router.post(
   "/login",
   [
-    loginLimiter, // Apply rate limiting to login
+    // loginLimiter, // TEMPORARILY DISABLED FOR TESTING
     body("email").isEmail().normalizeEmail().withMessage("Please provide a valid email"),
     body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
   ],
