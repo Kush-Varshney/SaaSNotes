@@ -442,7 +442,7 @@ We welcome contributions! Please follow these steps:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/your-username/SaaSNotes.git
+   git clone https://github.com/Kush-Varshney/SaaSNotes.git
    cd SaaSNotes
    ```
 
