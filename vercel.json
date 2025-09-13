@@ -7,18 +7,32 @@
       "config": {
         "distDir": "client/build"
       }
+    },
+    {
+      "src": "server/server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/server/server.js"
+    },
+    {
       "src": "/static/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=31536000,immutable"
-      }
+      "dest": "/client/static/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/client/index.html"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "MONGODB_URI": "@mongodb_uri",
+    "JWT_SECRET": "@jwt_secret",
+    "JWT_EXPIRE": "@jwt_expire",
+    "CLIENT_URL": "@client_url",
+    "REACT_APP_API_URL": "@react_app_api_url"
+  }
 }

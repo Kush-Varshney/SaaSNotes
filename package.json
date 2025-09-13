@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+    "build": "cd client && npm run build && cd ../server && npm install",
+    "dev": "concurrently \"cd client && npm start\" \"cd server && npm run dev\"",
+    "start": "cd server && npm start",
+    "install-all": "cd client && npm install && cd ../server && npm install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -77,6 +77,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^8.2.2",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",
