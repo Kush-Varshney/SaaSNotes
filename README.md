@@ -495,14 +495,12 @@ B.Tech CSE | Full Stack Developer
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-```
-
 ## 📞 Support
 
 - 🐛 **Bug Reports**: [Create an issue](https://github.com/Kush-Varshney/SaaSNotes/issues)
 - 💡 **Feature Requests**: [Start a discussion](https://github.com/Kush-Varshney/SaaSNotes/discussions)
 - 📧 **Contact**: [GitHub Profile](https://github.com/Kush-Varshney/)
-- 🌐 **Portfolio**: [kushvarshney.dev](https://kushvarshney.vercel.app/)
+- 🌐 **Portfolio**: [kushvarshney](https://kushvarshney.vercel.app/)
 
 ## ⭐ Show Your Support
 
