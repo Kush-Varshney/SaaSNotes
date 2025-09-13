@@ -11,7 +11,7 @@ const router = express.Router()
 // Login rate limiter - more lenient for development
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 5 : 50, // 50 login attempts in dev, 5 in prod
+  max: process.env.NODE_ENV === 'production' ? 50 : 50, // 50 login attempts in both dev and prod
   message: {
     error: "Too many login attempts, please try again later.",
     retryAfter: "15 minutes"

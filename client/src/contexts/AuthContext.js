@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   // Set base URL for API calls
   useEffect(() => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
+    axios.defaults.baseURL = process.env.REACT_APP_API_URL || "https://server-six-dun.vercel.app/api"
   }, [])
 
   // Check if user is authenticated on app load
