@@ -8,10 +8,10 @@ const { authenticate } = require("../middleware/auth")
 
 const router = express.Router()
 
-// Login rate limiter - more lenient for development
+// Login rate limiter - UPDATED: More lenient for production
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 50 : 50, // 50 login attempts in both dev and prod
+  max: 50, // 50 login attempts in both dev and prod (FIXED)
   message: {
     error: "Too many login attempts, please try again later.",
     retryAfter: "15 minutes"
